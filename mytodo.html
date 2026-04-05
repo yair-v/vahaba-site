@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>רשימת משימות | Vahaba</title>
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    :root {
+      --bg1: #f8fafc;
+      --bg2: #eef2f7;
+      --card: rgba(255,255,255,0.92);
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --primary: #0f172a;
+      --primary-2: #1e293b;
+      --soft: #f1f5f9;
+      --danger: #dc2626;
+      --shadow: 0 12px 32px rgba(15, 23, 42, 0.10);
+      --radius: 26px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: Arial, "Noto Sans Hebrew", "Segoe UI", sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--bg1), #ffffff 40%, var(--bg2));
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .main-card { padding: 24px; }
+    .side-card { padding: 22px; }
+
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: var(--primary);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      font-weight: bold;
+      box-shadow: 0 8px 22px rgba(15,23,42,.22);
+    }
+
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 34px; line-height: 1.15; }
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .chip {
+      background: var(--soft);
+      color: var(--primary-2);
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .add-row {
+      display: grid;
+      grid-template-columns: 1fr 140px;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .tools-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .input, .button, .filter-btn {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      min-height: 52px;
+      font-size: 16px;
+      transition: .18s ease;
+    }
+
+    .input {
+      width: 100%;
+      background: white;
+      color: var(--text);
+      padding: 0 16px;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: #94a3b8;
+      box-shadow: 0 0 0 4px rgba(148, 163, 184, 0.18);
+    }
+
+    .button {
+      border: none;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 0 18px;
+    }
+
+    .button:hover { transform: translateY(-1px); background: #020617; }
+    .button.secondary {
+      background: white;
+      color: var(--primary);
+      border: 1px solid var(--line);
+    }
+    .button.secondary:hover { background: #f8fafc; }
+    .button.gray {
+      background: #9ca3af;
+      color: white;
+    }
+    .button:disabled {
+      cursor: not-allowed;
+      opacity: .6;
+      transform: none;
+    }
+
+    .filters {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--soft);
+      border-radius: 18px;
+      padding: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      min-height: 40px;
+      background: transparent;
+      border: none;
+      padding: 0 16px;
+      cursor: pointer;
+      color: #475569;
+    }
+    .filter-btn.active {
+      background: white;
+      box-shadow: 0 2px 8px rgba(15,23,42,.08);
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 180px;
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      background: #f8fafc;
+      border-radius: 24px;
+      padding: 34px 18px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .task {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 3px 10px rgba(15,23,42,.04);
+    }
+
+    .circle-btn, .icon-btn {
+      border: none;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .circle-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .circle-btn.done {
+      background: var(--primary);
+      color: white;
+    }
+
+    .task-text {
+      font-size: 18px;
+      font-weight: 700;
+      word-break: break-word;
+    }
+    .task.done .task-text {
+      color: #94a3b8;
+      text-decoration: line-through;
+    }
+
+    .task-date {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #94a3b8;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid var(--line);
+      font-size: 18px;
+    }
+    .icon-btn:hover, .circle-btn:hover { transform: translateY(-1px); }
+    .icon-btn.delete:hover { color: var(--danger); border-color: #fecaca; background: #fff5f5; }
+
+    .edit-row {
+      display: grid;
+      grid-template-columns: 1fr 92px;
+      gap: 8px;
+    }
+
+    .side-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    h2 { font-size: 20px; margin-bottom: 14px; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      background: var(--soft);
+      border-radius: 24px;
+      padding: 20px 10px;
+      text-align: center;
+    }
+    .stat .num {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat .label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .quick-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badge {
+      background: var(--soft);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 14px;
+    }
+    .badge.primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .page { padding: 14px; }
+      h1 { font-size: 28px; }
+    }
+
+    @media (max-width: 640px) {
+      .main-card, .side-card { padding: 18px; }
+      .header { flex-direction: column; align-items: stretch; }
+      .add-row, .tools-row, .edit-row { grid-template-columns: 1fr; }
+      .task { grid-template-columns: 48px 1fr; }
+      .task-actions { grid-column: 1 / -1; justify-content: flex-start; }
+      .stats { grid-template-columns: 1fr 1fr 1fr; }
+      .chip { align-self: flex-start; }
+      .task-text { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="layout">
+      <section class="card main-card">
+        <div class="header">
+          <div>
+            <div class="title-row">
+              <div class="logo">✓</div>
+              <div>
+                <h1>רשימת משימות</h1>
+                <p class="subtitle">אפליקציית משימות פשוטה, נקייה ומהירה לשימוש בנייד ובמחשב.</p>
+              </div>
+            </div>
+          </div>
+          <div class="chip">מותאם לנייד ולמחשב</div>
+        </div>
+
+        <div class="add-row">
+          <input id="taskInput" class="input" type="text" placeholder="כתוב משימה חדשה..." />
+          <button id="addBtn" class="button">הוסף משימה</button>
+        </div>
+
+        <div class="tools-row">
+          <input id="searchInput" class="input" type="text" placeholder="חפש משימה..." />
+          <div class="filters">
+            <button class="filter-btn active" data-filter="all">הכול</button>
+            <button class="filter-btn" data-filter="active">פעיל</button>
+            <button class="filter-btn" data-filter="done">בוצע</button>
+          </div>
+        </div>
+
+        <div id="taskList" class="list"></div>
+      </section>
+
+      <aside class="side-stack">
+        <section class="card side-card">
+          <h2>סיכום</h2>
+          <div class="stats">
+            <div class="stat">
+              <div id="totalCount" class="num">0</div>
+              <div class="label">סך הכול</div>
+            </div>
+            <div class="stat">
+              <div id="activeCount" class="num">0</div>
+              <div class="label">פעילות</div>
+            </div>
+            <div class="stat">
+              <div id="doneCount" class="num">0</div>
+              <div class="label">בוצעו</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card side-card">
+          <h2>פעולות מהירות</h2>
+          <div class="quick-actions">
+            <button id="showActiveBtn" class="button secondary">הצג רק משימות פעילות</button>
+            <button id="showDoneBtn" class="button secondary">הצג רק משימות שבוצעו</button>
+            <button id="clearDoneBtn" class="button gray">נקה משימות שבוצעו</button>
+          </div>
+        </section>
+
+        <section class="card side-card">
+          <div class="badges">
+            <div class="badge primary">שמירה אוטומטית</div>
+            <div class="badge">מותאם לנייד</div>
+            <div class="badge">מותאם למחשב</div>
+          </div>
+          <div class="footer-note">הנתונים נשמרים מקומית בדפדפן של אותו מכשיר.</div>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'vahaba_todo_list_v1';
+    let tasks = [];
+    let filter = 'all';
+    let search = '';
+    let editingId = null;
+
+    const taskInput = document.getElementById('taskInput');
+    const searchInput = document.getElementById('searchInput');
+    const addBtn = document.getElementById('addBtn');
+    const taskList = document.getElementById('taskList');
+    const totalCount = document.getElementById('totalCount');
+    const activeCount = document.getElementById('activeCount');
+    const doneCount = document.getElementById('doneCount');
+    const showActiveBtn = document.getElementById('showActiveBtn');
+    const showDoneBtn = document.getElementById('showDoneBtn');
+    const clearDoneBtn = document.getElementById('clearDoneBtn');
+    const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+
+    function uid() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    }
+
+    function saveTasks() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    }
+
+    function loadTasks() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        tasks = raw ? JSON.parse(raw) : [];
+      } catch {
+        tasks = [];
+      }
+    }
+
+    function formatDate(dateString) {
+      return new Date(dateString).toLocaleString('he-IL', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function addTask() {
+      const text = taskInput.value.trim();
+      if (!text) return;
+      tasks.unshift({ id: uid(), text, completed: false, createdAt: new Date().toISOString() });
+      taskInput.value = '';
+      saveTasks();
+      render();
+    }
+
+    function toggleTask(id) {
+      tasks = tasks.map(task => task.id === id ? { ...task, completed: !task.completed } : task);
+      saveTasks();
+      render();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(task => task.id !== id);
+      saveTasks();
+      render();
+    }
+
+    function startEdit(id) {
+      editingId = id;
+      render();
+    }
+
+    function saveEdit(id) {
+      const input = document.getElementById('edit-' + id);
+      if (!input) return;
+      const value = input.value.trim();
+      if (!value) return;
+      tasks = tasks.map(task => task.id === id ? { ...task, text: value } : task);
+      editingId = null;
+      saveTasks();
+      render();
+    }
+
+    function clearCompleted() {
+      tasks = tasks.filter(task => !task.completed);
+      saveTasks();
+      render();
+    }
+
+    function setFilter(next) {
+      filter = next;
+      filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === next));
+      render();
+    }
+
+    function getFilteredTasks() {
+      return tasks.filter(task => {
+        const matchSearch = task.text.toLowerCase().includes(search.toLowerCase());
+        const matchFilter = filter === 'all' ? true : filter === 'active' ? !task.completed : task.completed;
+        return matchSearch && matchFilter;
+      });
+    }
+
+    function updateStats() {
+      const total = tasks.length;
+      const done = tasks.filter(t => t.completed).length;
+      const active = total - done;
+      totalCount.textContent = total;
+      activeCount.textContent = active;
+      doneCount.textContent = done;
+      clearDoneBtn.disabled = done === 0;
+    }
+
+    function render() {
+      updateStats();
+      const filtered = getFilteredTasks();
+
+      if (filtered.length === 0) {
+        taskList.innerHTML = '<div class="empty">אין כרגע משימות להצגה.</div>';
+        return;
+      }
+
+      taskList.innerHTML = filtered.map(task => {
+        const safeText = task.text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+
+        if (editingId === task.id) {
+          return `
+            <div class="task ${task.completed ? 'done' : ''}">
+              <button class="circle-btn ${task.completed ? 'done' : ''}" onclick="toggleTask('${task.id}')">✓</button>
+              <div>
+                <div class="edit-row">
+                  <input id="edit-${task.id}" class="input" type="text" value="${safeText}" />
+                  <button class="button secondary" onclick="saveEdit('${task.id}')">שמור</button>
+                </div>
+                <div class="task-date">${formatDate(task.createdAt)}</div>
+              </div>
+              <div class="task-actions"></div>
+            </div>`;
+        }
+
+        return `
+          <div class="task ${task.completed ? 'done' : ''}">
+            <button class="circle-btn ${task.completed ? 'done' : ''}" onclick="toggleTask('${task.id}')">✓</button>
+            <div>
+              <div class="task-text">${safeText}</div>
+              <div class="task-date">${formatDate(task.createdAt)}</div>
+            </div>
+            <div class="task-actions">
+              <button class="icon-btn" onclick="startEdit('${task.id}')" title="ערוך">✎</button>
+              <button class="icon-btn delete" onclick="deleteTask('${task.id}')" title="מחק">🗑</button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    addBtn.addEventListener('click', addTask);
+    taskInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') addTask();
+    });
+    searchInput.addEventListener('input', (e) => {
+      search = e.target.value;
+      render();
+    });
+    showActiveBtn.addEventListener('click', () => setFilter('active'));
+    showDoneBtn.addEventListener('click', () => setFilter('done'));
+    clearDoneBtn.addEventListener('click', clearCompleted);
+    filterButtons.forEach(btn => btn.addEventListener('click', () => setFilter(btn.dataset.filter)));
+
+    loadTasks();
+    render();
+  </script>
+</body>
+</html>
