@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,16 +9,16 @@
     :root {
       --bg: #0d0d0f;
       --bg-soft: #141417;
-      --panel: rgba(255,255,255,0.055);
-      --panel-strong: rgba(15,15,18,0.52);
-      --border: rgba(255,255,255,0.12);
+      --panel: rgba(255, 255, 255, 0.055);
+      --panel-strong: rgba(15, 15, 18, 0.52);
+      --border: rgba(255, 255, 255, 0.12);
       --text: #ffffff;
       --muted: #d8d8de;
       --muted-2: #bdbdc6;
       --accent: #ff4d4d;
       --accent-2: #e23535;
       --success: #4dff88;
-      --shadow: 0 18px 50px rgba(0,0,0,0.28);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
       --radius-xl: 28px;
       --radius-lg: 22px;
       --radius-md: 16px;
@@ -38,7 +39,7 @@
       overflow-x: hidden;
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(circle at top right, rgba(255,77,77,0.10), transparent 20%),
+        radial-gradient(circle at top right, rgba(255, 77, 77, 0.10), transparent 20%),
         linear-gradient(180deg, #0b0b0d 0%, #101014 100%);
       color: var(--text);
     }
@@ -59,8 +60,8 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at 12% 18%, rgba(255,77,77,0.12), transparent 22%),
-        radial-gradient(circle at 86% 84%, rgba(255,255,255,0.05), transparent 18%);
+        radial-gradient(circle at 12% 18%, rgba(255, 77, 77, 0.12), transparent 22%),
+        radial-gradient(circle at 86% 84%, rgba(255, 255, 255, 0.05), transparent 18%);
       z-index: -1;
     }
 
@@ -80,7 +81,7 @@
       justify-content: center;
       padding: 48px 56px;
       background:
-        linear-gradient(135deg, rgba(11,11,13,0.96) 0%, rgba(19,19,23,0.96) 55%, rgba(23,23,27,0.96) 100%);
+        linear-gradient(135deg, rgba(11, 11, 13, 0.96) 0%, rgba(19, 19, 23, 0.96) 55%, rgba(23, 23, 27, 0.96) 100%);
       z-index: 2;
     }
 
@@ -98,9 +99,9 @@
       margin-bottom: 20px;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.06);
       color: #ffd7d7;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
       backdrop-filter: blur(8px);
       font-size: 14px;
       letter-spacing: 0.2px;
@@ -126,7 +127,7 @@
 
     .accent {
       color: var(--accent);
-      text-shadow: 0 0 30px rgba(255,77,77,0.16);
+      text-shadow: 0 0 30px rgba(255, 77, 77, 0.16);
     }
 
     .lead {
@@ -148,16 +149,16 @@
       padding: 18px 16px;
       border-radius: var(--radius-lg);
       background: var(--panel);
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
       backdrop-filter: blur(8px);
       transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
     }
 
     .stat:hover {
       transform: translateY(-4px);
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.16);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.16);
     }
 
     .stat strong {
@@ -199,17 +200,17 @@
 
     .btn-primary {
       background: linear-gradient(135deg, #ff5e5e, #e23535);
-      box-shadow: 0 16px 34px rgba(226,53,53,0.30);
+      box-shadow: 0 16px 34px rgba(226, 53, 53, 0.30);
     }
 
     .btn-secondary {
-      background: rgba(255,255,255,0.04);
-      border-color: rgba(255,255,255,0.18);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.18);
     }
 
     .btn-secondary:hover {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.28);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.28);
     }
 
     .quote {
@@ -218,7 +219,7 @@
       padding: 16px 18px;
       border-right: 4px solid var(--accent);
       border-radius: 18px;
-      background: rgba(255,255,255,0.045);
+      background: rgba(255, 255, 255, 0.045);
       color: #f3f3f5;
       font-size: 17px;
       line-height: 1.7;
@@ -247,8 +248,8 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(to left, rgba(13,13,15,0.12), rgba(13,13,15,0.58)),
-        linear-gradient(to top, rgba(13,13,15,0.20), rgba(13,13,15,0.02));
+        linear-gradient(to left, rgba(13, 13, 15, 0.12), rgba(13, 13, 15, 0.58)),
+        linear-gradient(to top, rgba(13, 13, 15, 0.20), rgba(13, 13, 15, 0.02));
       z-index: 2;
     }
 
@@ -259,8 +260,8 @@
       pointer-events: none;
       z-index: 3;
       background:
-        radial-gradient(circle at 68% 18%, rgba(255,255,255,0.15), transparent 20%),
-        radial-gradient(circle at 78% 84%, rgba(255,77,77,0.14), transparent 24%);
+        radial-gradient(circle at 68% 18%, rgba(255, 255, 255, 0.15), transparent 20%),
+        radial-gradient(circle at 78% 84%, rgba(255, 77, 77, 0.14), transparent 24%);
       mix-blend-mode: screen;
     }
 
@@ -274,7 +275,7 @@
       padding: 18px 18px;
       border-radius: 22px;
       background: var(--panel-strong);
-      border: 1px solid rgba(255,255,255,0.16);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       backdrop-filter: blur(10px);
       box-shadow: var(--shadow);
       animation: floatCard 4s ease-in-out infinite;
@@ -299,7 +300,7 @@
       margin-left: 8px;
       border-radius: 50%;
       background: var(--success);
-      box-shadow: 0 0 0 0 rgba(77,255,136,0.6);
+      box-shadow: 0 0 0 0 rgba(77, 255, 136, 0.6);
       animation: pulse 1.8s infinite;
       vertical-align: middle;
     }
@@ -309,6 +310,7 @@
         opacity: 0;
         transform: translateY(24px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -319,15 +321,19 @@
       from {
         transform: scale(1.04) translateX(0);
       }
+
       to {
         transform: scale(1.10) translateX(-1.5%);
       }
     }
 
     @keyframes floatCard {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translateY(0);
       }
+
       50% {
         transform: translateY(-8px);
       }
@@ -335,13 +341,15 @@
 
     @keyframes pulse {
       0% {
-        box-shadow: 0 0 0 0 rgba(77,255,136,0.6);
+        box-shadow: 0 0 0 0 rgba(77, 255, 136, 0.6);
       }
+
       70% {
-        box-shadow: 0 0 0 14px rgba(77,255,136,0);
+        box-shadow: 0 0 0 14px rgba(77, 255, 136, 0);
       }
+
       100% {
-        box-shadow: 0 0 0 0 rgba(77,255,136,0);
+        box-shadow: 0 0 0 0 rgba(77, 255, 136, 0);
       }
     }
 
@@ -477,6 +485,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="page-shell">
     <section class="hero">
@@ -707,7 +716,7 @@
 
     function submitPassword() {
       const value = passwordInput.value;
-      if (value === '8878') {
+      if (value === 'הילה1818') {
         window.location.href = pendingDestination;
       } else {
         alert('סיסמה שגויה');
@@ -725,4 +734,5 @@
   </script>
 
 </body>
+
 </html>
