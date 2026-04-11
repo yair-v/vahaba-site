@@ -485,6 +485,113 @@
         display: block;
       }
     }
+
+    .contact-section {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 34px 22px 70px;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 28px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(10px);
+      padding: 28px;
+    }
+
+    .contact-title {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 3vw, 40px);
+      letter-spacing: -0.8px;
+    }
+
+    .contact-subtitle {
+      margin: 0 0 18px;
+      color: #ddddE5;
+      line-height: 1.9;
+      font-size: 16px;
+    }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .contact-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .contact-field,
+    .contact-message {
+      width: 100%;
+      padding: 15px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font: inherit;
+      transition: border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .contact-field::placeholder,
+    .contact-message::placeholder {
+      color: #cfcfd7;
+    }
+
+    .contact-field:focus,
+    .contact-message:focus {
+      outline: none;
+      border-color: rgba(255, 77, 77, 0.85);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.13);
+    }
+
+    .contact-message,
+    .contact-form .full-row {
+      grid-column: 1 / -1;
+    }
+
+    .contact-message {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .contact-note {
+      grid-column: 1 / -1;
+      margin: 2px 0 0;
+      color: #d0d0d8;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .contact-form {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-message,
+      .contact-form .full-row,
+      .contact-note {
+        grid-column: auto;
+      }
+
+      .contact-card {
+        padding: 22px 18px;
+        border-radius: 24px;
+      }
+    }
   </style>
 </head>
 
@@ -529,7 +636,7 @@
           <div class="actions">
 
             <!-- <span class="btn btn-primary">פרויקטים</span> -->
-            <span class="btn btn-secondary">צור קשר</span>
+            <a class="btn btn-secondary" href="#contact">צור קשר</a>
           </div>
 
           <p class="quote">"Best solutions come from simplicity"</p>
@@ -544,6 +651,35 @@
         </div>
       </div>
     </section>
+
+    <section class="contact-section" id="contact">
+      <div class="contact-card">
+        <h2 class="contact-title">צור קשר</h2>
+        <p class="contact-subtitle">
+          אפשר לשלוח לי הודעה ישירות מהאתר. הטופס ישלח את הפרטים למייל שלי.
+        </p>
+
+        <a class="contact-email" href="mailto:Yair.vahaba@gmail.com">Yair.vahaba@gmail.com</a>
+
+        <form class="contact-form" action="https://formsubmit.co/Yair.vahaba@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="פנייה חדשה מהאתר של Yair Vahaba">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+
+          <input class="contact-field" type="text" name="full_name" placeholder="שם מלא" required>
+          <input class="contact-field" type="email" name="email" placeholder="כתובת מייל" required>
+          <input class="contact-field full-row" type="tel" name="phone" placeholder="נייד" required dir="rtl">
+          <textarea class="contact-message" name="message" placeholder="הודעה" required></textarea>
+
+          <button type="submit" class="btn btn-primary">שלח</button>
+
+          <p class="contact-note" id="contact-sent">
+            בשליחה הראשונה FormSubmit יבקש אימות חד-פעמי לכתובת המייל שלך לפני שהפניות יתחילו להגיע.
+          </p>
+        </form>
+      </div>
+    </section>
+
   </div>
 
 
