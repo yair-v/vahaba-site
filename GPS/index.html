@@ -4,100 +4,84 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>VAHABA GPS</title>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
   <style>
-    html,body{margin:0;height:100%;font-family:Arial,sans-serif;background:#111827}
+    html,body,#map{height:100%;margin:0}
+    body{font-family:Arial,sans-serif;background:#111}
     #map{height:100%;width:100%}
-    .box{
+    .panel{
       position:fixed;z-index:1000;top:12px;right:12px;
-      background:rgba(17,24,39,.94);color:#fff;padding:12px 14px;
-      border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,.35);
-      min-width:230px
+      background:rgba(255,255,255,.96);padding:12px 14px;border-radius:12px;
+      box-shadow:0 4px 18px rgba(0,0,0,.25);min-width:230px
     }
     .title{font-weight:700;margin-bottom:8px}
-    .status{font-size:13px;color:#cbd5e1;margin-bottom:8px}
-    .coords{font-family:monospace;font-size:14px;direction:ltr;text-align:left}
+    .status{font-size:14px;margin-bottom:6px}
+    .coords{direction:ltr;text-align:left;font-family:monospace}
   </style>
 </head>
 <body>
+  <div class="panel">
+    <div class="title">VAHABA GPS</div>
+    <div id="status" class="status">ממתין למיקום...</div>
+    <div id="coords" class="coords">LAT: --<br>LON: --</div>
+  </div>
+  <div id="map"></div>
 
-<div class="box">
-  <div class="title">VAHABA GPS</div>
-  <div id="status" class="status">ממתין למיקום...</div>
-  <div id="coords" class="coords">LAT: --<br>LON: --</div>
-</div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const API_URL = "https://portal.org.il/gps/location.php";
 
-<div id="map"></div>
+    const map = L.map('map').setView([31.8,34.9],8);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      maxZoom:19,
+      attribution:'&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    let marker = null;
+    let firstFix = true;
 
-<script>
-  // הכנס כאן את כתובת Firebase Realtime Database שלך, בלי / בסוף.
-  // דוגמה:
-  // const DB_URL = "https://my-project-default-rtdb.europe-west1.firebasedatabase.app";
-  const DB_URL = "PUT_YOUR_FIREBASE_DATABASE_URL_HERE";
+    async function updateLocation(){
+      try{
+        const r = await fetch(API_URL + "?t=" + Date.now(), {cache:"no-store"});
+        const d = await r.json();
 
-  const map = L.map('map').setView([31.8, 34.9], 8);
+        if(!d.ok){
+          document.getElementById("status").textContent = "אין עדיין מיקום";
+          return;
+        }
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
+        const lat = Number(d.lat);
+        const lon = Number(d.lon);
 
-  let marker = null;
-  let firstFix = true;
+        document.getElementById("coords").innerHTML =
+          "LAT: " + lat.toFixed(6) + "<br>LON: " + lon.toFixed(6);
 
-  async function loadLocation(){
-    if(DB_URL.includes("PUT_YOUR_")){
-      document.getElementById('status').textContent = "יש להגדיר כתובת Firebase";
-      return;
+        if(d.updated){
+          const dt = new Date(d.updated * 1000);
+          document.getElementById("status").textContent =
+            "עודכן: " + dt.toLocaleString("he-IL");
+        }else{
+          document.getElementById("status").textContent = "מיקום התקבל";
+        }
+
+        if(!marker){
+          marker = L.marker([lat,lon]).addTo(map);
+        }else{
+          marker.setLatLng([lat,lon]);
+        }
+
+        if(firstFix){
+          map.setView([lat,lon],15);
+          firstFix = false;
+        }
+      }catch(e){
+        console.error(e);
+        document.getElementById("status").textContent = "שגיאה בקבלת המיקום";
+      }
     }
 
-    try{
-      const res = await fetch(DB_URL + "/location.json?t=" + Date.now(), {
-        cache: "no-store"
-      });
-
-      if(!res.ok) throw new Error("HTTP " + res.status);
-
-      const data = await res.json();
-
-      if(!data || data.lat == null || data.lon == null){
-        document.getElementById('status').textContent = "ממתין לדיווח מהלוח...";
-        return;
-      }
-
-      const lat = Number(data.lat);
-      const lon = Number(data.lon);
-
-      if(!Number.isFinite(lat) || !Number.isFinite(lon)) return;
-
-      document.getElementById('status').textContent = "מיקום התקבל";
-      document.getElementById('coords').innerHTML =
-        "LAT: " + lat.toFixed(6) + "<br>LON: " + lon.toFixed(6);
-
-      if(!marker){
-        marker = L.marker([lat,lon]).addTo(map);
-      }else{
-        marker.setLatLng([lat,lon]);
-      }
-
-      if(firstFix){
-        map.setView([lat,lon], 15);
-        firstFix = false;
-      }
-
-    }catch(err){
-      console.error(err);
-      document.getElementById('status').textContent = "שגיאה בקריאת המיקום";
-    }
-  }
-
-  loadLocation();
-  setInterval(loadLocation, 5000);
-</script>
-
+    updateLocation();
+    setInterval(updateLocation,5000);
+  </script>
 </body>
 </html>
